@@ -2,12 +2,20 @@ package com.restful.web.restproject.model;
 
 import java.util.Date;
 
+import javax.validation.constraints.Past;
+import javax.validation.constraints.Size;
+
+import org.springframework.format.annotation.NumberFormat;
+
 public class User {
 
+	@NumberFormat
 	private Integer id;
 
+	@Size(min=2)
 	private String name;
 
+	@Past
 	private Date birthDate;
 
 	public User() {
