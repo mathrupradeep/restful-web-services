@@ -3,8 +3,10 @@ package com.restful.web.restproject.model;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -12,7 +14,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 public class Post {
 
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy=GenerationType.SEQUENCE,generator="post_sequence")
+	@SequenceGenerator(initialValue=4, name = "post_sequence",allocationSize=1)
 	private Integer id;
 
 	private String description;
