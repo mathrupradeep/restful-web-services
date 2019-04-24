@@ -16,8 +16,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import com.restful.web.restproject.exceptions.EntityNotFoundException;
+import com.restful.web.restproject.model.Post;
 import com.restful.web.restproject.model.User;
 import com.restful.web.restproject.model.dao.UserDAOService;
+import com.restful.web.restproject.repository.PostRepository;
 import com.restful.web.restproject.repository.UserRepository;
 
 @RestController
@@ -44,6 +46,15 @@ public class UserJPAController {
 		return user.get();
 	}
 
+	@GetMapping("/jpa/users/{id}/posts")
+	public List<Post> getAllPostByUser(@PathVariable int id) {
+		Optional<User> user = userRepository.findById(id);
+		if (!user.isPresent()) {
+			throw new EntityNotFoundException("id -" + id);
+		}
+		return user.get().getPosts();
+	}
+
 	@PostMapping("/jpa/users")
 	public ResponseEntity<User> addUser(@Valid @RequestBody User usr) {
 		User user = userRepository.save(usr);
@@ -56,9 +67,6 @@ public class UserJPAController {
 	@DeleteMapping("/jpa/users/{id}")
 	public void deleteUser(@PathVariable int id) {
 		userRepository.deleteById(id);
-//		if (false) {
-//			throw new EntityNotFoundException("User Id - " + id + " not found");
-//		}
 	}
 
 }
